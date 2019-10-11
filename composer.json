@@ -1,0 +1,47 @@
+{
+    "name": "therobfonz/laravel-security-headers",
+    "description": "Adds security headers to Laravel responses.",
+    "type": "library",
+    "keywords": ["Laravel", "Security Headers"],
+    "time": "2019-10-11",
+    "license": "mit",
+    "authors": [
+        {
+            "name": "Rob Fonseca",
+            "email": "robfonseca@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "illuminate/support": "5.6.*|5.7.*|5.8.*|^6.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "~3.8.0",
+        "mockery/mockery": "~1.0",
+        "phpunit/phpunit": "~8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TheRobFonz\\SecurityHeaders\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TheRobFonz\\SecurityHeaders\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TheRobFonz\\SecurityHeaders\\Providers\\ContentSecurityPolicyServiceProvider",
+                "TheRobFonz\\SecurityHeaders\\Providers\\SecurityHeadersServiceProvider"
+            ],
+            "aliases": {
+                "ContentSecurityPolicy": "TheRobFonz\\SecurityHeaders\\Facades\\ContentSecurityPolicy",
+                "SecurityHeaders": "TheRobFonz\\SecurityHeaders\\Facades\\SecurityHeaders"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
