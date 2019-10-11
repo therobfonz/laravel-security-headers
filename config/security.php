@@ -1,6 +1,6 @@
 <?php
 
-use TheRobFonz\SecurityHeaders\Facades\ContentSecurityPolicy;
+use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator as ContentSecurityPolicy;
 
 return [
 
@@ -57,7 +57,7 @@ return [
      *
      * Options: see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
      */
-    'Content-Security-Policy' => ContentSecurityPolicy::add("default-src", "'self'")
+    'Content-Security-Policy' => (new ContentSecurityPolicy)->add("default-src", "'self'")
                                             ->add("script-src", "'self'")
                                             ->add("img-src", "'self'")
                                             ->add("style-src", "'self'")
