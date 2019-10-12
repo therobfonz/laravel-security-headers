@@ -1,7 +1,5 @@
 <?php
 
-use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator as ContentSecurityPolicy;
-
 return [
 
     /*
@@ -57,12 +55,12 @@ return [
      *
      * Options: see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
      */
-    'Content-Security-Policy' => (new ContentSecurityPolicy)->add("default-src", "'self'")
-                                            ->add("script-src", "'self'")
-                                            ->add("img-src", "'self'")
-                                            ->add("style-src", "'self'")
-                                            ->add("font-src", "'self'")
-                                            ->add("frame-src", "'self'")
-                                            ->add("object-src", "'self'")
-                                            ->generate(),
+    'Content-Security-Policy' => [
+        "default-src" => "'self'",
+        "script-src" => "'self'",
+        "img-src" => "'self'",
+        "font-src" => "'self'",
+        "frame-src" => "'self'",
+        "object-src" => "'self'"
+    ]
 ];

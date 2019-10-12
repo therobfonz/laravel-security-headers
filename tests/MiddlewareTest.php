@@ -29,9 +29,9 @@ class MiddlewareTest extends TestCase
     public function it_sets_up_default_security_headers()
     {
         $headers = $this->getResponseHeaders();
-
+        
         foreach(config('security') as $policy => $value) {
-            $this->assertStringContainsString($headers->get($policy), $value);
+            $this->assertArrayHasKey(strtolower($policy), $headers->all());
         }
     }
 

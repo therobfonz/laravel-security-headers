@@ -37,7 +37,6 @@
                 "TheRobFonz\\SecurityHeaders\\Providers\\SecurityHeadersServiceProvider"
             ],
             "aliases": {
-                "ContentSecurityPolicy": "TheRobFonz\\SecurityHeaders\\Facades\\ContentSecurityPolicy",
                 "SecurityHeaders": "TheRobFonz\\SecurityHeaders\\Facades\\SecurityHeaders"
             }
         }
