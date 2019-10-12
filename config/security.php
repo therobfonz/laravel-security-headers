@@ -58,6 +58,7 @@ return [
     'Content-Security-Policy' => [
         "default-src" => "'self'",
         "script-src" => "'self'",
+        "style-src" => "'self'",
         "img-src" => "'self'",
         "font-src" => "'self'",
         "frame-src" => "'self'",
