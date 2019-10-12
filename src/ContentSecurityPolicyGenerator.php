@@ -39,7 +39,7 @@ class ContentSecurityPolicyGenerator
     {
         $nonce = "";
         if ($policy == 'script-src') {
-            $nonce = "nonce=" . $this->getNonce() . " ";
+            $nonce = "'nonce-" . $this->getNonce() . "' ";
         }
 
         $this->policy .= $policy . " " . $nonce . $sources . "; ";
