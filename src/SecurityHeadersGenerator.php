@@ -25,11 +25,11 @@ class SecurityHeadersGenerator
     	}
 
     	// add the headers to the response
-    	foreach (config('security') as $policy => $value) {
-            if ($policy == 'Content-Security-Policy') {
-                $this->response->headers->set($policy, $this->processContentSecurityPolicy($value));
+    	foreach (config('security.headers') as $header => $value) {
+            if ($header == 'Content-Security-Policy') {
+                $this->response->headers->set($header, $this->processContentSecurityPolicy($value));
             } else {
-                $this->response->headers->set($policy, $value);
+                $this->response->headers->set($header, $value);
             }
     	}
 
@@ -42,15 +42,15 @@ class SecurityHeadersGenerator
      * @param  mixed $policy
      * @return string
      */
-    private function processContentSecurityPolicy($policy): string
+    private function processContentSecurityPolicy($header): string
     {
-        if (!is_array($policy)) {
-            return $policy;
+        if (!is_array($header)) {
+            return $header;
         }
 
         $csp = resolve('content-security-policy');
-        foreach($policy as $source => $values) {
-            $csp->add($source, $values);
+        foreach($header as $policy => $values) {
+            $csp->add($policy, $values);
         }
 
         return $csp->generate();

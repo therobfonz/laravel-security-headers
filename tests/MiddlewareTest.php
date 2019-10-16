@@ -30,8 +30,8 @@ class MiddlewareTest extends TestCase
     {
         $headers = $this->getResponseHeaders();
         
-        foreach(config('security') as $policy => $value) {
-            $this->assertArrayHasKey(strtolower($policy), $headers->all());
+        foreach(config('security.headers') as $header => $value) {
+            $this->assertArrayHasKey(strtolower($header), $headers->all());
         }
     }
 
@@ -39,13 +39,13 @@ class MiddlewareTest extends TestCase
     public function it_can_override_default_headers_from_config()
     {
         config([
-            'security.X-Frame-Options' => 'deny',
-            'security.X-Content-Type-Options' => 'none',
-            'security.X-XSS-Protection' => '1',
-            'security.Strict-Transport-Security' => 'max-age=3200',
-            'security.Referrer-Policy' => 'origin',
-            'security.Feature-Policy' => "geolocation 'true'",
-            'security.Content-Security-Policy' => (new ContentSecurityPolicyGenerator)->add("default-src", "'self'")
+            'security.headers.X-Frame-Options' => 'deny',
+            'security.headers.X-Content-Type-Options' => 'none',
+            'security.headers.X-XSS-Protection' => '1',
+            'security.headers.Strict-Transport-Security' => 'max-age=3200',
+            'security.headers.Referrer-Policy' => 'origin',
+            'security.headers.Feature-Policy' => "geolocation 'true'",
+            'security.headers.Content-Security-Policy' => (new ContentSecurityPolicyGenerator)->add("default-src", "'self'")
                                                     ->add("object-src", "'none'")
                                                     ->generate()
         ]);
@@ -69,8 +69,8 @@ class MiddlewareTest extends TestCase
 
         $headers = $this->getResponseHeaders();
 
-        foreach(config('security') as $policy => $value) {
-            $this->assertArrayHasKey(strtolower($policy), $headers->all());
+        foreach(config('security.headers') as $header => $value) {
+            $this->assertArrayHasKey(strtolower($header), $headers->all());
         }
     }
 
@@ -83,8 +83,8 @@ class MiddlewareTest extends TestCase
 
         $headers = $this->getResponseHeaders();
 
-        foreach(config('security') as $policy => $value) {
-            $this->assertArrayNotHasKey(strtolower($policy), $headers->all());
+        foreach(config('security.headers') as $header => $value) {
+            $this->assertArrayNotHasKey(strtolower($header), $headers->all());
         }
     }
 
