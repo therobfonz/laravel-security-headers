@@ -35,10 +35,7 @@
             "providers": [
                 "TheRobFonz\\SecurityHeaders\\Providers\\ContentSecurityPolicyServiceProvider",
                 "TheRobFonz\\SecurityHeaders\\Providers\\SecurityHeadersServiceProvider"
-            ],
-            "aliases": {
-                "SecurityHeaders": "TheRobFonz\\SecurityHeaders\\Facades\\SecurityHeaders"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",

@@ -15,9 +15,7 @@ class SecurityHeadersServiceProvider extends ServiceProvider
     public function register()
     {
         // initialize the security headers class
-        $this->app->singleton('security-headers', function () {
-            return app(SecurityHeadersGenerator::class);
-        });
+        $this->app->singleton(SecurityHeadersGenerator::class);
     }
 
     /**

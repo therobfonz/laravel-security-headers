@@ -18,7 +18,7 @@ class ContentSecurityPolicyServiceProvider extends ServiceProvider
             return app(ContentSecurityPolicyGenerator::class);
         });
         
-        // add a blade directive    
+        // add a blade directive
         $this->app->view->getEngineResolver()->resolve('blade')->getCompiler()->directive('nonce', function () {
             return '<?php echo "nonce=\"" . resolve("content-security-policy")->getNonce() . "\""; ?>';
         });

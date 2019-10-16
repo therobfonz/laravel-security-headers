@@ -60,6 +60,34 @@ class MiddlewareTest extends TestCase
         $this->assertStringContainsString("object-src 'none'", $headers->get('Content-Security-Policy'));
     }
 
+    /** @test */
+    public function it_disables_security_headers_enabled()
+    {
+        config([
+            'security.enabled' => true,
+        ]);
+
+        $headers = $this->getResponseHeaders();
+
+        foreach(config('security') as $policy => $value) {
+            $this->assertArrayHasKey(strtolower($policy), $headers->all());
+        }
+    }
+
+    /** @test */
+    public function it_disables_security_headers_if_not_enabled()
+    {
+        config([
+            'security.enabled' => false,
+        ]);
+
+        $headers = $this->getResponseHeaders();
+
+        foreach(config('security') as $policy => $value) {
+            $this->assertArrayNotHasKey(strtolower($policy), $headers->all());
+        }
+    }
+
     protected function getResponseHeaders()
     {
         return $this->get('middleware-test')

@@ -3,9 +3,11 @@
 namespace TheRobFonz\SecurityHeaders;
 
 use Illuminate\Support\Str;
+use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator;
 
 class SecurityHeadersGenerator
 {
+    /** @var object $response */
 	protected $response;
 
     /**
@@ -25,7 +27,7 @@ class SecurityHeadersGenerator
     	// add the headers to the response
     	foreach (config('security') as $policy => $value) {
             if ($policy == 'Content-Security-Policy') {
-                $this->response->headers->set($policy, $this->processCSP($value));
+                $this->response->headers->set($policy, $this->processContentSecurityPolicy($value));
             } else {
                 $this->response->headers->set($policy, $value);
             }
@@ -40,13 +42,13 @@ class SecurityHeadersGenerator
      * @param  mixed $policy
      * @return string
      */
-    private function processCSP($policy): string
+    private function processContentSecurityPolicy($policy): string
     {
         if (!is_array($policy)) {
             return $policy;
         }
 
-        $csp = resolve('content-security-policy');
+        $csp = app(ContentSecurityPolicyGenerator::class);
         foreach($policy as $source => $values) {
             $csp->add($source, $values);
         }
@@ -61,7 +63,12 @@ class SecurityHeadersGenerator
      */
     private function shouldAttachHeaders(): bool
     {
-    	return property_exists($this->response, 'exception') && !$this->response->exception 
-                || !property_exists($this->response, 'exception');
+        $enabled = config()->has('security.enabled') ? config('security.enabled') : true;
+
+    	return property_exists($this->response, 'exception') 
+                    && !$this->response->exception 
+                    && $enabled
+                || !property_exists($this->response, 'exception') 
+                    && $enabled;
     }
 }

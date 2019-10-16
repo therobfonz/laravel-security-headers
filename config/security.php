@@ -2,6 +2,11 @@
 
 return [
 
+    /**
+     * Used to enable or disable adding teh security headers to the response
+     */
+    'enabled' => true,
+
     /*
      * Used to indicate whether or not a browser should be allowed to render a page 
      * in a <frame>, <iframe>, <embed> or <object>.

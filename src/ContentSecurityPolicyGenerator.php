@@ -54,7 +54,7 @@ class ContentSecurityPolicyGenerator
 	 */
 	public function generate(): string
 	{
-        return $this->policy;
+        return trim($this->policy);
 	}
 
     /**

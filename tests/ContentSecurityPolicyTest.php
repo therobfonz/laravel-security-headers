@@ -2,6 +2,8 @@
 
 namespace TheRobFonz\SecurityHeaders\Tests;
 
+use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator;
+
 class ContentSecurityPolicyTest extends TestCase
 {
     protected $csp;
