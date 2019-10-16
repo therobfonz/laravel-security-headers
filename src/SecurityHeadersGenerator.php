@@ -48,7 +48,7 @@ class SecurityHeadersGenerator
             return $policy;
         }
 
-        $csp = app(ContentSecurityPolicyGenerator::class);
+        $csp = resolve('content-security-policy');
         foreach($policy as $source => $values) {
             $csp->add($source, $values);
         }
