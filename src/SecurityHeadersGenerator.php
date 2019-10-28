@@ -2,13 +2,22 @@
 
 namespace TheRobFonz\SecurityHeaders;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator;
 
 class SecurityHeadersGenerator
 {
+    /** @var object $request */
+    protected $request;
+
     /** @var object $response */
 	protected $response;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
     /**
      * Generate a random string
@@ -34,6 +43,27 @@ class SecurityHeadersGenerator
     	}
 
         return $this->response;
+    }
+
+    /**
+     * Determine if the request has a URI that should pass through CSRF verification.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    private function inExceptArray()
+    {
+        foreach (config('security.excludes') as $except) {
+            if ($except !== '/') {
+                $except = trim($except, '/');
+            }
+
+            if ($this->request->fullUrlIs($except) || $this->request->is($except)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -68,7 +98,9 @@ class SecurityHeadersGenerator
     	return property_exists($this->response, 'exception') 
                     && !$this->response->exception 
                     && $enabled
+                    && !$this->inExceptArray()
                 || !property_exists($this->response, 'exception') 
-                    && $enabled;
+                    && $enabled
+                    && !$this->inExceptArray();
     }
 }

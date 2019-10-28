@@ -2,6 +2,7 @@
 
 namespace TheRobFonz\SecurityHeaders\Providers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator;
 

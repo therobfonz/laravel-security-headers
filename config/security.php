@@ -3,6 +3,13 @@
 return [
 
     /**
+     * Routes to exclude from the security header response
+     */
+    'excludes' => [
+        //
+    ],
+
+    /**
      * Used to enable or disable adding the security headers to the response
      */
     'enabled' => env('SECURITY_HEADERS', true),

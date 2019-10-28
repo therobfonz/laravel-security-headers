@@ -45,7 +45,7 @@ class MiddlewareTest extends TestCase
             'security.headers.Strict-Transport-Security' => 'max-age=3200',
             'security.headers.Referrer-Policy' => 'origin',
             'security.headers.Feature-Policy' => "geolocation 'true'",
-            'security.headers.Content-Security-Policy' => (new ContentSecurityPolicyGenerator)->add("default-src", "'self'")
+            'security.headers.Content-Security-Policy' => (new ContentSecurityPolicyGenerator(request()))->add("default-src", "'self'")
                                                     ->add("object-src", "'none'")
                                                     ->generate()
         ]);
@@ -82,6 +82,28 @@ class MiddlewareTest extends TestCase
         ]);
 
         $headers = $this->getResponseHeaders();
+
+        foreach(config('security.headers') as $header => $value) {
+            $this->assertArrayNotHasKey(strtolower($header), $headers->all());
+        }
+    }
+
+    /** @test */
+    public function it_excludes_routes_in_excludes_config()
+    {
+        config([
+            'security.excludes' => [
+                'exclude-test/*'
+            ],
+        ]);
+
+        Route::get('exclude-test/should-be-excluded', function () {
+            return 'success';
+        });
+
+        $headers = $this->get('exclude-test/should-be-excluded')
+            ->assertSuccessful()
+            ->headers;
 
         foreach(config('security.headers') as $header => $value) {
             $this->assertArrayNotHasKey(strtolower($header), $headers->all());

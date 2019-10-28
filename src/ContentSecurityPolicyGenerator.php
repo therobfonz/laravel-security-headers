@@ -7,18 +7,10 @@ use Illuminate\Support\Str;
 
 class ContentSecurityPolicyGenerator
 {
-	/**
-	 * The randomized nonce
-	 * 
-	 * @var string
-	 */
+	 /** @var string $nonce */
 	protected $nonce;
 
-    /**
-     * The policy
-     * 
-     * @var string
-     */
+     /** @var string $policy */
     protected $policy;
 
     /**
