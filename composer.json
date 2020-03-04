@@ -2,7 +2,10 @@
     "name": "therobfonz/laravel-security-headers",
     "description": "Adds security headers to Laravel responses.",
     "type": "library",
-    "keywords": ["Laravel", "Security Headers"],
+    "keywords": [
+        "Laravel",
+        "Security Headers"
+    ],
     "time": "2019-10-11",
     "license": "mit",
     "authors": [
@@ -13,7 +16,7 @@
     ],
     "require": {
         "php": "^7.1.3",
-        "illuminate/support": "5.6.*|5.7.*|5.8.*|^6.0"
+        "illuminate/support": "5.6.*|5.7.*|5.8.*|^6.0|^7.0"
     },
     "require-dev": {
         "orchestra/testbench": "~3.8.0",
