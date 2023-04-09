@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TheRobFonz\SecurityHeaders\Tests;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpFoundation\HeaderBag;
 use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator;
-use TheRobFonz\SecurityHeaders\Facades\ContentSecurityPolicy;
 use TheRobFonz\SecurityHeaders\Middleware\RespondWithSecurityHeaders;
 
+/**
+ * @coversDefaultClass \TheRobFonz\SecurityHeaders\Middleware\RespondWithSecurityHeaders
+ */
 class MiddlewareTest extends TestCase
 {
     protected $headers;
@@ -17,6 +20,7 @@ class MiddlewareTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
         app(Kernel::class)->pushMiddleware(RespondWithSecurityHeaders::class);
 
         // set up a route that uses the middleware
@@ -25,18 +29,24 @@ class MiddlewareTest extends TestCase
         });
     }
 
-    /** @test */
-    public function it_sets_up_default_security_headers()
+    /**
+     * @covers ::handle
+     */
+    public function test_it_sets_up_default_security_headers(): void
     {
         $headers = $this->getResponseHeaders();
-        
+
         foreach(config('security.headers') as $header => $value) {
             $this->assertArrayHasKey(strtolower($header), $headers->all());
         }
     }
 
-    /** @test */
-    public function it_can_override_default_headers_from_config()
+    /**
+     * @covers ::handle
+     * @covers \TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator::add
+     * @covers \TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator::generate
+     */
+    public function test_it_can_override_default_headers_from_config(): void
     {
         config([
             'security.headers.X-Frame-Options' => 'deny',
@@ -45,11 +55,11 @@ class MiddlewareTest extends TestCase
             'security.headers.Strict-Transport-Security' => 'max-age=3200',
             'security.headers.Referrer-Policy' => 'origin',
             'security.headers.Feature-Policy' => "geolocation 'true'",
-            'security.headers.Content-Security-Policy' => (new ContentSecurityPolicyGenerator(request()))->add("default-src", "'self'")
-                                                    ->add("object-src", "'none'")
-                                                    ->generate()
+            'security.headers.Content-Security-Policy' => (new ContentSecurityPolicyGenerator(request()))->add('default-src', "'self'")
+                ->add('object-src', "'none'")
+                ->generate(),
         ]);
-        
+
         $headers = $this->getResponseHeaders();
 
         $this->assertStringContainsString('deny', $headers->get('X-Frame-Options'));
@@ -60,8 +70,10 @@ class MiddlewareTest extends TestCase
         $this->assertStringContainsString("object-src 'none'", $headers->get('Content-Security-Policy'));
     }
 
-    /** @test */
-    public function it_disables_security_headers_enabled()
+    /**
+     * @covers ::handle
+     */
+    public function test_it_disables_security_headers_enabled(): void
     {
         config([
             'security.enabled' => true,
@@ -74,8 +86,10 @@ class MiddlewareTest extends TestCase
         }
     }
 
-    /** @test */
-    public function it_disables_security_headers_if_not_enabled()
+    /**
+     * @covers ::handle
+     */
+    public function test_it_disables_security_headers_if_not_enabled(): void
     {
         config([
             'security.enabled' => false,
@@ -88,12 +102,14 @@ class MiddlewareTest extends TestCase
         }
     }
 
-    /** @test */
-    public function it_excludes_routes_in_excludes_config()
+    /**
+     * @covers ::handle
+     */
+    public function test_it_excludes_routes_in_excludes_config(): void
     {
         config([
             'security.excludes' => [
-                'exclude-test/*'
+                'exclude-test/*',
             ],
         ]);
 

@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TheRobFonz\SecurityHeaders\Providers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use TheRobFonz\SecurityHeaders\SecurityHeadersGenerator;
 
@@ -9,24 +12,21 @@ class SecurityHeadersServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         // initialize the security headers class
         $this->app->singleton('SecurityHeadersGenerator', function () {
-            $request = app(\Illuminate\Http\Request::class);
+            $request = app(Request::class);
+
             return app(SecurityHeadersGenerator::class, [$request]);
         });
     }
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         // publish the config file
         $source = realpath(__DIR__ . '/../../config/security.php');
@@ -36,10 +36,8 @@ class SecurityHeadersServiceProvider extends ServiceProvider
 
      /**
      * Get the services provided by the provider.
-     *
-     * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [SecurityHeadersGenerator::class];
     }

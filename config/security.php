@@ -1,12 +1,12 @@
 <?php
 
-return [
+declare(strict_types = 1);
 
+return [
     /**
      * Routes to exclude from the security header response
      */
     'excludes' => [
-        //
     ],
 
     /**
@@ -15,9 +15,8 @@ return [
     'enabled' => env('SECURITY_HEADERS', true),
 
     'headers' => [
-
         /*
-         * Used to indicate whether or not a browser should be allowed to render a page 
+         * Used to indicate whether or not a browser should be allowed to render a page
          * in a <frame>, <iframe>, <embed> or <object>.
          *
          * Options: see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
@@ -25,7 +24,7 @@ return [
         'X-Frame-Options' => 'sameorigin',
 
         /*
-         * Used by the server to indicate that the MIME types advertised in the Content-Type headers 
+         * Used by the server to indicate that the MIME types advertised in the Content-Type headers
          * should not be changed and be followed.
          *
          * Options: see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
@@ -33,7 +32,7 @@ return [
         'X-Content-Type-Options' => 'nosniff',
 
         /*
-         * A feature of Internet Explorer, Chrome and Safari that stops pages from loading when 
+         * A feature of Internet Explorer, Chrome and Safari that stops pages from loading when
          * they detect reflected cross-site scripting (XSS) attacks.
          *
          * Options: see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
@@ -55,7 +54,7 @@ return [
         'Referrer-Policy' => 'no-referrer-when-downgrade',
 
         /*
-         * Provides a mechanism to allow and deny the use of browser features in its own frame, and in content 
+         * Provides a mechanism to allow and deny the use of browser features in its own frame, and in content
          * within any <iframe> elements in the document.
          *
          * Options: see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
@@ -70,13 +69,13 @@ return [
          * Options: see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
          */
         'Content-Security-Policy' => [
-            "default-src" => "'self'",
-            "script-src" => "'self'",
-            "style-src" => "'self'",
-            "img-src" => "'self'",
-            "font-src" => "'self'",
-            "frame-src" => "'self'",
-            "object-src" => "'self'"
-        ]
-    ]
+            'default-src' => "'self'",
+            'script-src' => "'self'",
+            'style-src' => "'self'",
+            'img-src' => "'self'",
+            'font-src' => "'self'",
+            'frame-src' => "'self'",
+            'object-src' => "'self'",
+        ],
+    ],
 ];

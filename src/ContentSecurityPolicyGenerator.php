@@ -1,17 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TheRobFonz\SecurityHeaders;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ContentSecurityPolicyGenerator
 {
-	 /** @var string $nonce */
-	protected $nonce;
-
-     /** @var string $policy */
-    protected $policy;
+    protected string $nonce = '';
+    protected string $policy = '';
 
     /**
      * Construct the object
@@ -23,49 +21,42 @@ class ContentSecurityPolicyGenerator
 
     /**
      * Add to the content security policy
-     * 
-     * @param string $policy
-     * @param string $value
      */
-    public function add($policy, $sources)
+    public function add(string $policy, string $sources): self
     {
-        $nonce = "";
-        if ($policy == 'script-src') {
+        $nonce = '';
+
+        if ($policy === 'script-src') {
             $nonce = "'nonce-" . $this->getNonce() . "' ";
         }
 
-        $this->policy .= $policy . " " . $nonce . $sources . "; ";
+        $this->policy .= "{$policy} {$nonce}{$sources}; ";
+
         return $this;
     }
 
-	/**
-	 * Generates the security headers and adds them
-	 * to the request
-	 * 
-	 * @return string
-	 */
-	public function generate(): string
-	{
-        return trim($this->policy);
-	}
-
     /**
-     * Generate a random string
-     * 
-     * @return string
+     * Generates the security headers and adds them
+     * to the request
      */
-    private function generateNonce()
+    public function generate(): string
     {
-        $this->nonce = Str::random(32);
+        return trim($this->policy);
     }
 
     /**
-     * Generate a random string
-     * 
-     * @return string
+     * Get the nonce
      */
     public function getNonce(): string
     {
         return $this->nonce;
+    }
+
+    /**
+     * Generate a random string
+     */
+    private function generateNonce(): void
+    {
+        $this->nonce = Str::random(32);
     }
 }
