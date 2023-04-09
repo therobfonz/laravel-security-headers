@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace TheRobFonz\SecurityHeaders\Tests;
 
+use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator;
+
 /**
  * @coversDefaultClass TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator
  */
