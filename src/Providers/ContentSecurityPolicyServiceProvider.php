@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TheRobFonz\SecurityHeaders\Providers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator;
 
@@ -10,15 +11,13 @@ class ContentSecurityPolicyServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton('content-security-policy', function () {
             return app(ContentSecurityPolicyGenerator::class);
         });
-        
+
         // add a blade directive
         $this->app->view->getEngineResolver()->resolve('blade')->getCompiler()->directive('nonce', function () {
             return '<?php echo "nonce=\"" . resolve("content-security-policy")->getNonce() . "\""; ?>';
@@ -27,10 +26,8 @@ class ContentSecurityPolicyServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
-     *
-     * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [ContentSecurityPolicyGenerator::class];
     }

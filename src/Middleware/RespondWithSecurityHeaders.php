@@ -1,31 +1,28 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace TheRobFonz\SecurityHeaders\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use TheRobFonz\SecurityHeaders\SecurityHeadersGenerator;
 
 class RespondWithSecurityHeaders
 {
-    /** @var SecurityHeadersGenerator $security_headers */
-    protected $security_headers;
-    
-    public function __construct(SecurityHeadersGenerator $security_headers)
-    {
-        $this->security_headers = $security_headers;
+    public function __construct(
+        protected SecurityHeadersGenerator $securityHeaders
+    ) {
     }
-    
+
     /**
      * Add security headers to the request
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
 
-        return $this->security_headers->attach($response);
+        return $this->securityHeaders->attach($response);
     }
 }
