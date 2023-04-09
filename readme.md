@@ -10,12 +10,12 @@ The SecurityHeaders Service Provider can be installed via [Composer](http://getc
 ```json
 {
     "require": {
-        "therobfonz/laravel-security-headers": "^1.0"
+        "therobfonz/laravel-security-headers": "^2.0"
     }
 }
 ```
 
-Packages are auto-discovered in Laravel 5.6. Service Providers and Facades are defined in **composer.json**.
+Packages are auto-discovered in Laravel 5.6+. Service Providers and Facades are defined in **composer.json**.
 
 ## Config File
 
