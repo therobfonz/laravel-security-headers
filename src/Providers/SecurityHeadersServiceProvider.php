@@ -34,9 +34,9 @@ class SecurityHeadersServiceProvider extends ServiceProvider
         $this->mergeConfigFrom($source, 'security');
     }
 
-     /**
-     * Get the services provided by the provider.
-     */
+    /**
+    * Get the services provided by the provider.
+    */
     public function provides(): array
     {
         return [SecurityHeadersGenerator::class];

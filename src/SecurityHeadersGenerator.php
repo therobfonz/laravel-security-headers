@@ -19,22 +19,18 @@ class SecurityHeadersGenerator
     ) {
     }
 
-    /**
-     * Generate a random string
-     */
     public function attach(Response $response): Response
     {
         $this->response = $response;
 
-        // don't attach the headers
         if (! $this->shouldAttachHeaders()) {
             return $response;
         }
 
         // add the headers to the response
         foreach (config('security.headers') as $header => $value) {
-            if ($header === 'Content-Security-Policy') {
-                $this->response->headers->set($header, $this->processContentSecurityPolicy($value));
+            if (str_contains($header, 'Content-Security-Policy')) {
+                $this->response->headers->set($this->getCspHeader(), $this->processContentSecurityPolicy($value));
             } else {
                 $this->response->headers->set($header, $value);
             }
@@ -61,9 +57,6 @@ class SecurityHeadersGenerator
         return false;
     }
 
-    /**
-     * Processes the content security policy
-     */
     private function processContentSecurityPolicy(string|array $header): string
     {
         if (! is_array($header)) {
@@ -79,9 +72,6 @@ class SecurityHeadersGenerator
         return $csp->generate();
     }
 
-    /**
-     * Decides if headers should be attached to the response
-     */
     private function shouldAttachHeaders(): bool
     {
         $enabled = config()->has('security.enabled')
@@ -95,5 +85,16 @@ class SecurityHeadersGenerator
                 || ! property_exists($this->response, 'exception')
                     && $enabled
                     && ! $this->inExceptArray();
+    }
+
+    private function getCspHeader(): string
+    {
+        $header = 'Content-Security-Policy';
+
+        if ((bool) config('security.csp_report_only')) {
+            return $header . '-Report-Only';
+        }
+
+        return $header;
     }
 }

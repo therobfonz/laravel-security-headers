@@ -10,7 +10,7 @@ The SecurityHeaders Service Provider can be installed via [Composer](http://getc
 ```json
 {
     "require": {
-        "therobfonz/laravel-security-headers": "^2.0"
+        "therobfonz/laravel-security-headers": "^3.0"
     }
 }
 ```
