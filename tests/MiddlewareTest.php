@@ -6,6 +6,7 @@ namespace TheRobFonz\SecurityHeaders\Tests;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use TheRobFonz\SecurityHeaders\ContentSecurityPolicyGenerator;
 use TheRobFonz\SecurityHeaders\Middleware\RespondWithSecurityHeaders;
 
@@ -32,7 +33,7 @@ class MiddlewareTest extends TestCase
     /**
      * @covers ::handle
      */
-    public function test_it_sets_up_default_security_headers(): void
+    public function test_it_sets_default_security_headers(): void
     {
         $headers = $this->getResponseHeaders();
 
@@ -72,8 +73,23 @@ class MiddlewareTest extends TestCase
 
     /**
      * @covers ::handle
+     * @covers \TheRobFonz\SecurityHeaders\SecurityHeadersGenerator::getCspHeader
      */
-    public function test_it_disables_security_headers_enabled(): void
+    public function test_it_enables_report_only_mode_for_content_security_policy(): void
+    {
+        config([
+            'security.csp_report_only' => true,
+        ]);
+
+        $headers = $this->getResponseHeaders();
+
+        $this->assertTrue($headers->has('Content-Security-Policy-Report-Only'));
+    }
+
+    /**
+     * @covers ::handle
+     */
+    public function test_it_enables_security_headers_in_response(): void
     {
         config([
             'security.enabled' => true,
@@ -89,7 +105,7 @@ class MiddlewareTest extends TestCase
     /**
      * @covers ::handle
      */
-    public function test_it_disables_security_headers_if_not_enabled(): void
+    public function test_it_can_disable_seurity_headers_in_response(): void
     {
         config([
             'security.enabled' => false,
@@ -105,7 +121,7 @@ class MiddlewareTest extends TestCase
     /**
      * @covers ::handle
      */
-    public function test_it_excludes_routes_in_excludes_config(): void
+    public function test_it_can_exclude_routes(): void
     {
         config([
             'security.excludes' => [
@@ -126,7 +142,7 @@ class MiddlewareTest extends TestCase
         }
     }
 
-    protected function getResponseHeaders()
+    protected function getResponseHeaders(): ResponseHeaderBag
     {
         return $this->get('middleware-test')
             ->assertSuccessful()
