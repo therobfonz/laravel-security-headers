@@ -142,6 +142,34 @@ class MiddlewareTest extends TestCase
         }
     }
 
+    public function test_redirect_response(): void
+    {
+        config([
+            'security.enabled' => true,
+        ]);
+
+        Route::get('redirect', function () {
+            return redirect('/');
+        });
+
+        $this->get('/redirect')
+            ->assertRedirect();
+    }
+
+    public function test_json_response(): void
+    {
+        config([
+            'security.enabled' => true,
+        ]);
+
+        Route::get('some-json', function () {
+            return response()->json(['foo' => 'bar']);
+        });
+
+        $this->get('/some-json')
+            ->assertOk();
+    }
+
     protected function getResponseHeaders(): ResponseHeaderBag
     {
         return $this->get('middleware-test')
