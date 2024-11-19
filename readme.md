@@ -35,7 +35,6 @@ Add the middleware to the 'web' middleware group in `App\Http\Kernel.php`
 protected $middlewareGroups = [
     'web' => [
         //...
-
         \TheRobFonz\SecurityHeaders\Middleware\RespondWithSecurityHeaders::class,
 ```
 
