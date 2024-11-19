@@ -62,9 +62,9 @@ return [
          * Provides a mechanism to allow and deny the use of browser features in its own frame, and in content
          * within any <iframe> elements in the document.
          *
-         * Options: see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
+         * Options: see https://developer.mozilla.org/en-US/docs/Web/HTTP/Permissions_Policy
          */
-        'Feature-Policy' => "geolocation 'none'; midi 'none'; sync-xhr 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'self'; fullscreen 'self'; payment 'none';",
+        'Permissions-Policy' => "accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), bluetooth=(), browsing-topics=(), camera=(), compute-pressure=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()",
 
         /*
          * Configures embedding cross-origin resources into the document.
