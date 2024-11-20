@@ -6,7 +6,7 @@ namespace TheRobFonz\SecurityHeaders\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use TheRobFonz\SecurityHeaders\SecurityHeadersGenerator;
 
 class RespondWithSecurityHeaders
